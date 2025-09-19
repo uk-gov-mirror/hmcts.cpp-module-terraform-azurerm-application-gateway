@@ -145,7 +145,7 @@ resource "azurerm_application_gateway" "app_gateway" {
       url_path_map_name           = request_routing_rule.value.url_path_map_name
       redirect_configuration_name = request_routing_rule.value.redirect_configuration_name
       rewrite_rule_set_name       = request_routing_rule.value.rewrite_rule_set_name
-      priority                    = coalesce(request_routing_rule.value.priority, request_routing_rule.key + 1)
+      priority                    = request_routing_rule.value.priority
     }
   }
 

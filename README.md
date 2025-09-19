@@ -1,5 +1,42 @@
-README.md updated successfully
-rements
+# Azure Application Gateway Terraform Module
+
+This Terraform module creates an Azure Application Gateway with comprehensive configuration options including WAF, SSL, backend pools, listeners, routing rules, and diagnostics.
+
+## Breaking Changes
+
+### Priority Field Required
+
+**IMPORTANT**: The `priority` field is now **required** for all request routing rules.
+
+#### Migration Required
+
+**Before Update:**
+```hcl
+request_routing_rules = [{
+  name                       = "my-rule"
+  rule_type                  = "Basic"
+  http_listener_name         = "my-listener"
+  backend_address_pool_name  = "my-backend"
+  backend_http_settings_name = "my-settings"
+  # priority was optional/auto-generated
+}]
+```
+
+**After Update:**
+```hcl
+request_routing_rules = [{
+  name                       = "my-rule"
+  rule_type                  = "Basic"
+  http_listener_name         = "my-listener"
+  backend_address_pool_name  = "my-backend"
+  backend_http_settings_name = "my-settings"
+  priority                   = 100  # Now required
+}]
+```
+
+Use priority values with gaps (e.g., 100, 200, 300) to allow for future insertions.
+
+---
 
 <!-- BEGIN_TF_DOCS -->
 
@@ -43,7 +80,7 @@ rements
 | <a name="input_private_ip_address"></a> [private\_ip\_address](#input\_private\_ip\_address) | Private IP Address to assign to the Load Balancer. | `any` | `null` | no |
 | <a name="input_privatelink"></a> [privatelink](#input\_privatelink) | Private Link config for Application Gateway (optional) | <pre>object({<br/>    name                  = string<br/>    ip_configuration_name = string<br/>    subnet_id             = string<br/>    private_ip_address    = optional(string)<br/>  })</pre> | `null` | no |
 | <a name="input_redirect_configuration"></a> [redirect\_configuration](#input\_redirect\_configuration) | List of objects with redirect configurations. | <pre>list(object({<br/>    name = string<br/><br/>    redirect_type        = optional(string, "Permanent")<br/>    target_listener_name = optional(string)<br/>    target_url           = optional(string)<br/><br/>    include_path         = optional(bool, true)<br/>    include_query_string = optional(bool, true)<br/>  }))</pre> | `[]` | no |
-| <a name="input_request_routing_rules"></a> [request\_routing\_rules](#input\_request\_routing\_rules) | List of objects with request routing rules configurations. With AzureRM v3+ provider, `priority` attribute becomes mandatory. | <pre>list(object({<br/>    name                        = string<br/>    rule_type                   = optional(string, "Basic")<br/>    http_listener_name          = optional(string)<br/>    backend_address_pool_name   = optional(string)<br/>    backend_http_settings_name  = optional(string)<br/>    url_path_map_name           = optional(string)<br/>    redirect_configuration_name = optional(string)<br/>    rewrite_rule_set_name       = optional(string)<br/>    priority                    = optional(number)<br/>  }))</pre> | n/a | yes |
+| <a name="input_request_routing_rules"></a> [request\_routing\_rules](#input\_request\_routing\_rules) | List of objects with request routing rules configurations. Priority is required for stability. | <pre>list(object({<br/>    name                        = string<br/>    rule_type                   = optional(string, "Basic")<br/>    http_listener_name          = optional(string)<br/>    backend_address_pool_name   = optional(string)<br/>    backend_http_settings_name  = optional(string)<br/>    url_path_map_name           = optional(string)<br/>    redirect_configuration_name = optional(string)<br/>    rewrite_rule_set_name       = optional(string)<br/>    priority                    = number  # Required<br/>  }))</pre> | n/a | yes |
 | <a name="input_resource_group_name"></a> [resource\_group\_name](#input\_resource\_group\_name) | The name of the resource group in which to create the Application Gateway. | `string` | n/a | yes |
 | <a name="input_rewrite_rule_set"></a> [rewrite\_rule\_set](#input\_rewrite\_rule\_set) | List of rewrite rule set objects with rewrite rules. | <pre>list(object({<br/>    name = string<br/>    rewrite_rules = list(object({<br/>      name          = string<br/>      rule_sequence = string<br/><br/>      conditions = optional(list(object({<br/>        variable    = string<br/>        pattern     = string<br/>        ignore_case = optional(bool, false)<br/>        negate      = optional(bool, false)<br/>      })), [])<br/><br/>      response_header_configurations = optional(list(object({<br/>        header_name  = string<br/>        header_value = string<br/>      })), [])<br/><br/>      request_header_configurations = optional(list(object({<br/>        header_name  = string<br/>        header_value = string<br/>      })), [])<br/><br/>      url_reroute = optional(object({<br/>        path         = optional(string)<br/>        query_string = optional(string)<br/>        components   = optional(string)<br/>        reroute      = optional(bool)<br/>      }))<br/>    }))<br/>  }))</pre> | `[]` | no |
 | <a name="input_sku"></a> [sku](#input\_sku) | The sku pricing model of v1 and v2 | <pre>object({<br/>    name     = string<br/>    tier     = string<br/>    capacity = optional(number)<br/>  })</pre> | n/a | yes |

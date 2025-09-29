@@ -154,13 +154,13 @@ module "appgw_terratest" {
     id         = azurerm_public_ip.test_pip.id
     ip_address = azurerm_public_ip.test_pip.ip_address
   }
-  sku                     = var.sku
-  autoscale_configuration = var.autoscale_configuration
-  frontend_port_settings  = var.frontend_port_settings
-  backend_address_pools   = var.backend_address_pools
-  backend_http_settings   = var.backend_http_settings
-  http_listeners          = var.http_listeners
-  request_routing_rules   = var.request_routing_rules
+  sku                       = var.sku
+  autoscale_configuration   = var.autoscale_configuration
+  frontend_port_settings    = var.frontend_port_settings
+  backend_address_pools     = var.backend_address_pools
+  backend_http_settings     = var.backend_http_settings
+  http_listeners            = var.http_listeners
+  request_routing_rules     = var.request_routing_rules
   ssl_certificates          = [] # Remove SSL certificates that depend on Key Vault
   health_probes             = var.health_probes
   url_path_maps             = var.url_path_maps

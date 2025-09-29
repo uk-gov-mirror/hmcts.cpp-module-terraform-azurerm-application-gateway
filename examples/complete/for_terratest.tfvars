@@ -42,7 +42,7 @@ http_listeners = [{
   frontend_port_name = "http-feport"
   protocol           = "Http"
   # ssl_certificate_name = "tf-test-sslcert" # Removed SSL certificate dependency
-  require_sni        = false
+  require_sni = false
 }]
 request_routing_rules = [{
   name                       = "http-rqrt"

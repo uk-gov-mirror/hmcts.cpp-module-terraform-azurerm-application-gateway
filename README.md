@@ -101,6 +101,7 @@ Use priority values with gaps (e.g., 100, 200, 300) to allow for future insertio
 |------|-------------|
 | <a name="output_appgw_id"></a> [appgw\_id](#output\_appgw\_id) | The ID of the Application Gateway. |
 | <a name="output_appgw_name"></a> [appgw\_name](#output\_appgw\_name) | The name of the Application Gateway. |
+| <a name="output_appgw_public_ip_address"></a> [appgw\_public\_ip\_address](#output\_appgw\_public\_ip\_address) | The public IP address of the Application Gateway |
 | <a name="output_backend_address_pool_id"></a> [backend\_address\_pool\_id](#output\_backend\_address\_pool\_id) | The backend address pool id |
 <!-- END_TF_DOCS -->
 ## Contributing

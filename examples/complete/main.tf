@@ -44,7 +44,7 @@ module "test_appgw_subnet" {
   virtual_network_name                                  = azurerm_virtual_network.appgw_test_vn.name
   subnet_address_prefixes                               = var.appgw_subnet_cidr
   subnet_enforce_private_link_endpoint_network_policies = false
-  # service_endpoints                                     = ["Microsoft.KeyVault"] # Removed Key Vault service endpoint
+  service_endpoints                                     = ["Microsoft.KeyVault"]
 }
 
 module "test_backend_subnet" {
@@ -161,7 +161,12 @@ module "appgw_terratest" {
   backend_http_settings     = var.backend_http_settings
   http_listeners            = var.http_listeners
   request_routing_rules     = var.request_routing_rules
-  ssl_certificates          = [] # Remove SSL certificates that depend on Key Vault
+  ssl_certificates = [
+    {
+      name                = "tf-test-sslcert"
+      key_vault_secret_id = "${azurerm_key_vault.test.vault_uri}secrets/self-signed-certificate"
+    }
+  ]
   ssl_policy                = var.ssl_policy
   health_probes             = var.health_probes
   url_path_maps             = var.url_path_maps
@@ -169,11 +174,10 @@ module "appgw_terratest" {
   user_assigned_identity_id = azurerm_user_assigned_identity.app-gw-identity.id
   tags                      = var.tags
 
-  # Remove Key Vault dependencies
-  # depends_on = [
-  #   azurerm_key_vault_certificate.self_signed_certificate,
-  #   azurerm_key_vault.test,
-  # ]
+  depends_on = [
+    azurerm_key_vault_certificate.self_signed_certificate,
+    azurerm_key_vault.test,
+  ]
 }
 
 resource "random_password" "password" {

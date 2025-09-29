@@ -9,8 +9,8 @@ backend_subnet_name = "SN-APPGW-TF-TEST-BCKEND-01"
 backend_vnet_cidr   = ["10.251.0.128/25"]
 backend_subnet_cidr = ["10.251.0.128/26"]
 frontend_port_settings = [{
-  name = "http-feport"
-  port = 80
+  name = "https-feport"
+  port = 443
 }]
 sku = {
   name = "WAF_v2"
@@ -38,23 +38,23 @@ backend_http_settings = [{
   probe_name            = "tf-test-probe"
 }]
 http_listeners = [{
-  name               = "http-httplstn"
-  frontend_port_name = "http-feport"
-  protocol           = "Http"
-  # ssl_certificate_name = "tf-test-sslcert" # Removed SSL certificate dependency
-  require_sni = false
+  name                 = "https-httplstn"
+  frontend_port_name   = "https-feport"
+  protocol             = "Https"
+  ssl_certificate_name = "tf-test-sslcert"
+  require_sni          = false
 }]
 request_routing_rules = [{
-  name                       = "http-rqrt"
+  name                       = "https-rqrt"
   rule_type                  = "Basic"
-  http_listener_name         = "http-httplstn"
+  http_listener_name         = "https-httplstn"
   backend_address_pool_name  = "tf-test-beap"
   backend_http_settings_name = "tf-test-be-htst"
   priority                   = 100
 }]
 ssl_policy = {
   policy_type = "Predefined"
-  policy_name = "AppGwSslPolicy20220101S"
+  policy_name = "AppGwSslPolicy20220101"
 }
 url_path_maps = [{
   name                               = "tf-test-url-path-map"

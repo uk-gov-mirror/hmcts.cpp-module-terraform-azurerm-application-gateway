@@ -1,7 +1,3 @@
-# Key Vault configuration commented out to fix pipeline issues with network access
-# The terratest will use HTTP instead of HTTPS to avoid SSL certificate dependencies
-
-/*
 data "azurerm_client_config" "current" {}
 
 resource "azurerm_key_vault" "test" {
@@ -150,4 +146,3 @@ resource "azurerm_key_vault_certificate" "self_signed_certificate" {
     }
   }
 }
-*/

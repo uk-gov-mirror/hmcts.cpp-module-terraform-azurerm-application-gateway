@@ -162,6 +162,7 @@ module "appgw_terratest" {
   http_listeners            = var.http_listeners
   request_routing_rules     = var.request_routing_rules
   ssl_certificates          = [] # Remove SSL certificates that depend on Key Vault
+  ssl_policy                = var.ssl_policy
   health_probes             = var.health_probes
   url_path_maps             = var.url_path_maps
   firewall_policy_id        = azurerm_web_application_firewall_policy.test_waf_policy.id

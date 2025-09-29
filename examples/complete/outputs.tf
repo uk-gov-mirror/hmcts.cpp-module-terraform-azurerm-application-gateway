@@ -17,3 +17,8 @@ output "backend_address_pool_id" {
   description = "The backend address pool id"
   value       = module.appgw_terratest.backend_address_pool_id
 }
+
+output "appgw_public_ip_address" {
+  description = "The public IP address of the Application Gateway"
+  value       = azurerm_public_ip.test_pip.ip_address
+}

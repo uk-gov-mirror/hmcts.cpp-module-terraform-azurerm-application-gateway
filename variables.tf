@@ -140,7 +140,7 @@ variable "http_listeners" {
 }
 
 variable "request_routing_rules" {
-  description = "List of objects with request routing rules configurations. With AzureRM v3+ provider, `priority` attribute becomes mandatory."
+  description = "List of objects with request routing rules configurations. Priority is required for stability."
   type = list(object({
     name                        = string
     rule_type                   = optional(string, "Basic")
@@ -150,7 +150,7 @@ variable "request_routing_rules" {
     url_path_map_name           = optional(string)
     redirect_configuration_name = optional(string)
     rewrite_rule_set_name       = optional(string)
-    priority                    = optional(number)
+    priority                    = number # Required
   }))
 }
 

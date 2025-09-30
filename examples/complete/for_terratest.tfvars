@@ -50,7 +50,12 @@ request_routing_rules = [{
   http_listener_name         = "https-httplstn"
   backend_address_pool_name  = "tf-test-beap"
   backend_http_settings_name = "tf-test-be-htst"
+  priority                   = 100
 }]
+ssl_policy = {
+  policy_type = "Predefined"
+  policy_name = "AppGwSslPolicy20220101"
+}
 url_path_maps = [{
   name                               = "tf-test-url-path-map"
   default_backend_http_settings_name = "tf-test-be-htst"

@@ -167,6 +167,7 @@ module "appgw_terratest" {
       key_vault_secret_id = "${azurerm_key_vault.test.vault_uri}secrets/self-signed-certificate"
     }
   ]
+  ssl_policy                = var.ssl_policy
   health_probes             = var.health_probes
   url_path_maps             = var.url_path_maps
   firewall_policy_id        = azurerm_web_application_firewall_policy.test_waf_policy.id

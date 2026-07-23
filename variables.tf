@@ -388,27 +388,10 @@ variable "diagnostic_settings" {
     enabled_logs = optional(list(object({
       category       = optional(string)
       category_group = optional(string)
-      retention_policy = optional(object({
-        enabled = bool
-        days    = optional(number)
-      }))
     })))
-    logs = optional(list(object({
-      enabled        = optional(bool)
+    enabled_metrics = optional(list(object({
       category       = optional(string)
       category_group = optional(string)
-      retention_policy = optional(object({
-        enabled = bool
-        days    = optional(number)
-      }))
-    })))
-    metrics = optional(list(object({
-      enabled  = optional(bool)
-      category = string
-      retention_policy = object({
-        enabled = bool
-        days    = optional(number)
-      })
     })))
   }))
   default = []

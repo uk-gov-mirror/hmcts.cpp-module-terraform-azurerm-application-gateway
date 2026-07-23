@@ -386,7 +386,7 @@ variable "diagnostic_settings" {
     eventhub_name                  = optional(string)
     eventhub_authorization_rule_id = optional(string)
     enabled_logs = optional(list(object({
-      category       = optional(string)
+      category = optional(string)
     })))
   }))
   default = []

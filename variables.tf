@@ -387,11 +387,6 @@ variable "diagnostic_settings" {
     eventhub_authorization_rule_id = optional(string)
     enabled_logs = optional(list(object({
       category       = optional(string)
-      category_group = optional(string)
-    })))
-    enabled_metrics = optional(list(object({
-      category       = optional(string)
-      category_group = optional(string)
     })))
   }))
   default = []

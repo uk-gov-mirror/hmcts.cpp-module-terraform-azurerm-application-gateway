@@ -439,16 +439,7 @@ resource "azurerm_monitor_diagnostic_setting" "app_gateway" {
   dynamic "enabled_log" {
     for_each = each.value.enabled_logs != null ? each.value.enabled_logs : []
     content {
-      category       = try(enabled_log.value.category, null)
-      category_group = try(enabled_log.value.category_group, null)
-    }
-  }
-
-  dynamic "enabled_metric" {
-    for_each = each.value.enabled_metrics != null ? each.value.enabled_metrics : []
-    content {
-      category       = try(enabled_metric.value.category, null)
-      category_group = try(enabled_metric.value.category_group, null)
+      category = try(enabled_log.value.category, null)
     }
   }
 }

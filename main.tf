@@ -423,6 +423,7 @@ resource "azurerm_application_gateway" "app_gateway" {
 
 #---------------------------------------------------------------
 # azurerm monitoring diagnostics (Optional)
+# https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/monitor_diagnostic_setting
 #---------------------------------------------------------------
 resource "azurerm_monitor_diagnostic_setting" "app_gateway" {
   for_each = { for ds in var.diagnostic_settings : ds.name => ds }
@@ -438,24 +439,7 @@ resource "azurerm_monitor_diagnostic_setting" "app_gateway" {
   dynamic "enabled_log" {
     for_each = each.value.enabled_logs != null ? each.value.enabled_logs : []
     content {
-      category       = enabled_log.value.category
-      category_group = enabled_log.value.category_group
-      retention_policy {
-        enabled = enabled_log.value.retention_policy.enabled
-        days    = enabled_log.value.retention_policy.days
-      }
+      category = try(enabled_log.value.category, null)
     }
   }
-
-  dynamic "metric" {
-    for_each = each.value.metrics != null ? each.value.metrics : []
-    content {
-      category = metric.value.category
-      retention_policy {
-        enabled = metric.value.retention_policy.enabled
-        days    = metric.value.retention_policy.days
-      }
-    }
-  }
-
 }
